@@ -1,0 +1,4 @@
+repository "Speed Game@Vitrix32@cloud"
+  path "/"
+    br "/main"
+    co "/main"
