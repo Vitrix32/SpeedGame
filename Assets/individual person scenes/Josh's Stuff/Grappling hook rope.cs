@@ -9,11 +9,11 @@ public class Grapplinghookrope : MonoBehaviour
 
     public int ropeSpeed;
 
-    public int liveTime;
-
-    public int currentTime = 0;
-
     public Vector3 mousePos;
+
+    public bool moving = true;
+
+    public Vector3 moveDistance = new Vector3(0,0,0);
 
     // Start is called before the first frame update
     void Start()
@@ -28,22 +28,24 @@ public class Grapplinghookrope : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentTime*Time.deltaTime == liveTime)
+        if (moving)
         {
-            Destroy(this.gameObject);
+            moveDistance += this.transform.right * ropeSpeed * Time.deltaTime;
+            this.transform.position = player.transform.position + moveDistance;
+            this.gameObject.transform.localScale = new Vector3(this.gameObject.transform.localScale.x + ropeSpeed * Time.deltaTime * 2,
+                                                               this.gameObject.transform.localScale.y,
+                                                               this.gameObject.transform.localScale.z);
         }
-        this.gameObject.transform.position += this.transform.right * ropeSpeed * Time.deltaTime;
-        this.gameObject.transform.localScale = new Vector3(this.gameObject.transform.localScale.x + ropeSpeed * Time.deltaTime * 2,
-                                                           this.gameObject.transform.localScale.y,
-                                                           this.gameObject.transform.localScale.z);
-        currentTime++;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.tag == "Wall")
         {
-            Destroy(this.gameObject);
-        }
+            if (collision.gameObject.tag == "Wall")
+            {
+                player.GetComponent<PlayerScript>().GrappleToPoint(mousePos);
+                Destroy(this.gameObject);
+            }
+        }   
     }
 }
