@@ -11,6 +11,9 @@ public class simpleMovement : MonoBehaviour
     private Rigidbody2D rb;
     public bool isGrounded;
 
+    public bool doubleJump;
+    public float doubleJumpHeight;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +24,13 @@ public class simpleMovement : MonoBehaviour
     void Update()
     {
         Move = Input.GetAxis("Horizontal");
+        
+        if (Input.GetKeyDown(KeyCode.Space) && !isGrounded && doubleJump) {
+            rb.velocity = new Vector2(rb.velocity.x, doubleJumpHeight);
+            doubleJump = false;
+        };
 
-        if (Input.GetKeyDown(KeyCode.Space)&&isGrounded) {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
             isGrounded = false;
         };
@@ -35,6 +43,7 @@ public class simpleMovement : MonoBehaviour
         if (collision.gameObject.name == "Ground")
         {
             isGrounded = true;
+            doubleJump = true;
         }
     }
 }
