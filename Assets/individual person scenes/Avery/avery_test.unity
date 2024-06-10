@@ -1266,6 +1266,7 @@ GameObject:
   - component: {fileID: 937568273}
   - component: {fileID: 937568274}
   - component: {fileID: 937568275}
+  - component: {fileID: 937568276}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1374,13 +1375,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 937568273}
-  boxSize: {x: 1, y: 0.19}
+  boxSize: {x: 0.69, y: 0.19}
   maxDistance: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 64
   moveSpeed: 10
-  jumpStrength: 30
+  jumpStrength: 20
+  coyoteTime: 0.1
+  jumpBufferTime: 0.1
 --- !u!50 &937568273
 Rigidbody2D:
   serializedVersion: 4
@@ -1483,6 +1486,20 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &937568276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937568268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d008ac271972d4aa424c58054dd717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 937568269}
+  spriteRenderer: {fileID: 937568270}
 --- !u!1 &1469776765
 GameObject:
   m_ObjectHideFlags: 0
