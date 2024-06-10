@@ -12,23 +12,48 @@ public class PlayerMovement : MonoBehaviour {
     public LayerMask layerMask;
     public float moveSpeed = 1f;
     public float jumpStrength = 1f;
+    public float coyoteTime = 0.1f;
+    public float jumpBufferTime = 0.2f;
 
     private float moveDir = 0f;
+    private float coyoteTimeCounter;
+    private float jumpBufferCounter;
+    private bool jumping;
 
-    void OnJump() {
-        if (!IsGrounded()) {
+    void OnJump(InputValue value) {
+        float v = value.Get<float>();
+        if (v == 0f) {
             return;
         }
-        rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
+        jumpBufferCounter = jumpBufferTime;
     }
+
     void OnMove(InputValue value) {
         moveDir = value.Get<float>();
     }
 
+    void Update() {
+        jumpBufferCounter -= Time.deltaTime;
+        if (IsGrounded()) {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+    }
+
     void FixedUpdate() {
+        if (jumpBufferCounter > 0) {
+            Debug.Log(jumpBufferCounter);
+        }
         rb.velocity = new Vector2(moveDir * moveSpeed, rb.velocity.y);
-        Debug.Log(moveDir);
-        Debug.Log(rb.velocity);
+
+        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f) {
+            coyoteTimeCounter = 0f;
+            jumpBufferCounter = 0f;
+            rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
+
+        }
     }
 
     // void OnDrawGizmos() {
